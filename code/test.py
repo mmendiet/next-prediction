@@ -102,7 +102,7 @@ parser.add_argument("--traj_class_loss_weight", default=1.0, type=float)
 # ---------------------------- training hparam
 parser.add_argument("--save_period", type=int, default=300,
                     help="num steps to save model and eval")
-parser.add_argument("--batch_size", type=int, default=64)
+parser.add_argument("--batch_size", type=int, default=1)
 # num_step will be num_example/batch_size * epoch
 parser.add_argument("--num_epochs", type=int, default=100)
 # drop out rate

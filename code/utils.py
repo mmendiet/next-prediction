@@ -29,6 +29,8 @@ import numpy as np
 import tensorflow as tf
 import tqdm
 
+import time
+
 __all__ = ["activity2id", "object2id",
            "initialize", "read_data"]
 
@@ -379,7 +381,7 @@ def evaluate(dataset, config, sess, tester):
   Returns:
     Evaluation results.
   """
-
+  
   l2dis = []  # [num_example, each_timestep]
 
   # show the evaluation per trajectory class if actev experiment
@@ -406,15 +408,20 @@ def evaluate(dataset, config, sess, tester):
   traj_class_correct = []
   if config.is_actev:
     traj_class_correct_cat = [[] for i in xrange(len(config.traj_cats))]
-
+  
+  print("Batch Size: " + str(config.batch_size))
+  total_time = []
   for evalbatch in tqdm.tqdm(dataset.get_batches(config.batch_size, \
     full=True, shuffle=False), total=num_batches_per_epoch, ascii=True):
 
     # [N,pred_len, 2]
     # here the output is relative output
+    start = time.time()
     pred_out, future_act, grid_pred_1, grid_pred_2, \
         traj_class_logits, _ = tester.step(sess, evalbatch)
-
+    end = time.time()
+    #print("\nTime: " + str(end-start))
+    total_time.append((end-start))
     _, batch = evalbatch
 
     this_actual_batch_size = batch.data["original_batch_size"]
@@ -544,7 +551,8 @@ def evaluate(dataset, config, sess, tester):
           ("%s_ade" % scene): np.mean(ade) if ade else 0.0,
           ("%s_fde" % scene): np.mean(fde) if fde else 0.0,
       })
-
+  t = float(sum(total_time) / float(len(total_time)))
+  print("\n\n\n\n\n*********************************\nTotal time avg: " + str(t))
   return p
 
 
