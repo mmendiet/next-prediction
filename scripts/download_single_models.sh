@@ -18,13 +18,13 @@
 
 mkdir -p next-models
 
-wget https://next.cs.cmu.edu/data/pretrained_models/actev_single_model.tar -O next-models/actev_single_model.tar
+#wget https://next.cs.cmu.edu/data/pretrained_models/actev_single_model.tar -O next-models/actev_single_model.tar
 wget https://next.cs.cmu.edu/data/pretrained_models/ethucy_single_model.tar -O next-models/ethucy_single_model.tar
 
 # extract and delete the tar files
 cd next-models
-tar -xvf actev_single_model.tar
-rm actev_single_model.tar
+#tar -xvf actev_single_model.tar
+#rm actev_single_model.tar
 tar -xvf ethucy_single_model.tar
 rm ethucy_single_model.tar
 cd ..
